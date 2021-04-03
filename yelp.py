@@ -179,4 +179,5 @@ def load_data_into_arrays():
         
 
 
-
+further_parsing()
+load_data_into_arrays()
