@@ -101,7 +101,7 @@ def further_parsing():
         bus = json.load(json_file)['businesses']
         for b in bus:
             b['rating'] = int(b['rating'])
-            if b['rating'] >= 3.5:
+            if b['rating'] >= 4.0:
                 b['rating'] = 1
             else:
                 b['rating'] = 0
@@ -168,6 +168,14 @@ def load_data_into_arrays():
                 feature = features[i]
                 XTrain[ri][i] = 1 if restaurants[ri][feature] else 0
             yTrain[ri] = restaurants[ri]['rating']
+
+        count_zeros = np.count_nonzero(yTrain == 0.0)
+        count_ones = np.count_nonzero(yTrain == 1.0)
+        where_ones = np.where(yTrain == 1.0)[0][:count_zeros]
+        where_zeros = np.where(yTrain == 0.0)
+        where = np.append(where_ones, where_zeros)
+        yTrain = yTrain[where]
+        XTrain = XTrain[where]
     
     XTrain_df = pd.DataFrame(data=XTrain)
     yTrain_df = pd.DataFrame(data=yTrain)
